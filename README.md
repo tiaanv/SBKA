@@ -11,6 +11,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
+  <a href="https://github.com/tiaanv/SBKA/blob/master/SBKA">
+    <img src="/SBKA/soundbar.png" alt="Logo" width="80" height="80">
+  </a>  
   <h3 align="center">SBKA</h3>
 
   <p align="center">
