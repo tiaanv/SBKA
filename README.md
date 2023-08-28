@@ -16,8 +16,6 @@
   <p align="center">
    A simple utility to keep your soundbar awake
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
     <a href="https://github.com/tiaanv/SBKA/issues">Report Bug</a>
     ·
     <a href="https://github.com/tiaanv/SBKA/issues">Request Feature</a>
@@ -47,7 +45,6 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
