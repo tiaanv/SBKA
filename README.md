@@ -131,6 +131,7 @@ Code from the following Github project was used in this project
 
 * [Generate Sine Waveform](https://stackoverflow.com/questions/203890/creating-sine-or-square-wave-in-c-sharp)
 * [Sound Detection](https://github.com/RudiHansen/TestSoundDetection)
+* [Inspiration (Rejzor)](https://rejzor.wordpress.com/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
