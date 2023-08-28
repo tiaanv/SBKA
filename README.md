@@ -12,7 +12,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/tiaanv/SBKA/blob/master/SBKA">
-    <img src="/SBKA/soundbar.png" alt="Logo" width="80" height="80">
+    <img src="/SBKA/soundbar.png" alt="Logo" width="200" height="200">
   </a>  
   <h3 align="center">SBKA</h3>
 
