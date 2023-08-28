@@ -71,7 +71,7 @@ This little app does the following:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Download the Zip File containing the latest Release, or get the source, and build it yourself.
+Download the Zip File containing the latest [Release](https://github.com/tiaanv/SBKA/releases), or get the source, and build it yourself.
 Run the app.  You may also add a shortcut to your windows startup folder..
 
 ### Installation
