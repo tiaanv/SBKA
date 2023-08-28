@@ -74,6 +74,10 @@ This little app does the following:
 Download the Zip File containing the latest [Release](https://github.com/tiaanv/SBKA/releases), or get the source, and build it yourself.
 Run the app.  You may also add a shortcut to your windows startup folder..
 
+When you run the app, it will immediately start working. a Icon will appear in Tray Icons list.  Right Clicking on the Tray Icon presents a menu. from here you can:
+* Exit -> Close the application
+* Settings -> Presents the Settings window. This only shows the last time sound was detected, and the last time sound was played (for now).  Will add settings if it gets requested by users.
+
 ### Installation
 
 
