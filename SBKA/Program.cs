@@ -1,4 +1,6 @@
 using CoreAudioApi;
+using NAudio;
+using NAudio.Wave;
 using System;
 using System.Diagnostics;
 using System.Resources;
@@ -30,6 +32,8 @@ namespace SBKA
 
             return deviceid;
         }
+
+
         public static void PlayBeep(UInt16 frequency, int msDuration, UInt16 volume = 16383)
         {
             var mStrm = new MemoryStream();
@@ -87,7 +91,28 @@ namespace SBKA
             }
 
             mStrm.Seek(0, SeekOrigin.Begin);
-            new System.Media.SoundPlayer(mStrm).Play();
+
+            int devicenumber = -1;
+            for (int i = 0; i < WaveOut.DeviceCount; i++)
+            {
+                var devicecap = WaveOut.GetCapabilities(i);
+                if (devicecap.ProductName.Contains(Properties.Settings.Default.AudioDevice))
+                    devicenumber = i;
+            }
+
+            var output = new WaveOutEvent { DeviceNumber = devicenumber };
+            
+            var wav = new RawSourceWaveStream(mStrm, new WaveFormat(samplesPerSecond, bitsPerSample, 1));
+            output.Init(wav);
+            output.Play();
+            while (output.PlaybackState == PlaybackState.Playing)
+            {
+                Application.DoEvents();
+                Thread.Sleep(100);
+            }
+            wav.Dispose();
+            output.Dispose();
+
             writer.Close();
             mStrm.Close();
             lastplayedsound = DateTime.Now;
