@@ -23,12 +23,15 @@ namespace SBKA.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Default")]
         public string AudioDevice {
             get {
                 return ((string)(this["AudioDevice"]));
+            }
+            set {
+                this["AudioDevice"] = value;
             }
         }
         
@@ -47,6 +50,30 @@ namespace SBKA.Properties {
         public int VolumeThreshold {
             get {
                 return ((int)(this["VolumeThreshold"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int Interval {
+            get {
+                return ((int)(this["Interval"]));
+            }
+            set {
+                this["Interval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DetectSound {
+            get {
+                return ((bool)(this["DetectSound"]));
+            }
+            set {
+                this["DetectSound"] = value;
             }
         }
     }

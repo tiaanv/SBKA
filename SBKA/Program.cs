@@ -1,6 +1,8 @@
+using CoreAudioApi;
 using System;
 using System.Diagnostics;
 using System.Resources;
+using System.Threading;
 
 namespace SBKA
 {
@@ -8,6 +10,26 @@ namespace SBKA
     {
         public static DateTime lastheardsound;
         public static DateTime lastplayedsound;
+
+        public static string getdeviceid(string devicefriendlyname)
+        {
+            var sndDevEnum = new MMDeviceEnumerator();
+
+            //Get Default Snd Device
+            string deviceid = sndDevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
+
+            if (Properties.Settings.Default.AudioDevice != "Default")
+            {
+                var devices = sndDevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+                for (int i = 0; i < devices.Count; i++)
+                {
+                    if (devices[i].FriendlyName == devicefriendlyname)
+                        deviceid = devices[i].ID;
+                }
+            }
+
+            return deviceid;
+        }
         public static void PlayBeep(UInt16 frequency, int msDuration, UInt16 volume = 16383)
         {
             var mStrm = new MemoryStream();
@@ -69,6 +91,7 @@ namespace SBKA
             writer.Close();
             mStrm.Close();
             lastplayedsound = DateTime.Now;
+            lastheardsound = DateTime.Now;
         }
 
     }
@@ -111,10 +134,20 @@ namespace SBKA
 
                 while (true)
                 {
-                    var heardsound = await ears.Listen(2000, cancellationtkn);
-                    if (heardsound) Globals.lastheardsound = DateTime.Now;
+                    int interval = Properties.Settings.Default.Interval * 60;
+                    bool detectsound = Properties.Settings.Default.DetectSound;
+
+                    if (detectsound)
+                    {
+                        var heardsound = await ears.Listen(2000, cancellationtkn);
+                        if (heardsound) Globals.lastheardsound = DateTime.Now;
+                    }
+                    else
+                    {
+                        await Task.Delay(2000, cancellationtkn);
+                    }
                     var diffInSeconds = (DateTime.Now - Globals.lastheardsound).TotalSeconds;
-                    if (diffInSeconds > 600)
+                    if (diffInSeconds > interval)
                     {
                         Globals.PlayBeep(10, 3000);
                     }
@@ -125,6 +158,7 @@ namespace SBKA
             {
                 FrmSettings frmsettings = new FrmSettings();
                 frmsettings.ShowDialog();
+                frmsettings.Dispose();
             }
 
             void Exit(object? sender, EventArgs e)

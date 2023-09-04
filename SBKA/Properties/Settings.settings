@@ -2,14 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SBKA.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="AudioDevice" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+    <Setting Name="AudioDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
     </Setting>
     <Setting Name="AverageSound" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="VolumeThreshold" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Interval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DetectSound" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

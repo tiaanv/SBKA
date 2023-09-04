@@ -20,15 +20,14 @@ namespace SBKA
             _volumeQueue = new LimitedCollection<int>(MaxVolumeQueueLength) { 0 };
         }
 
+
         public async Task<bool> Listen(int millisecondsToListen, CancellationToken cancellationToken)
         {
             bool heardsound = false;
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var sndDevEnum = new MMDeviceEnumerator();
-            _sndDevice = Properties.Settings.Default.AudioDevice != ""
-                ? sndDevEnum.GetDevice(Properties.Settings.Default.AudioDevice)
-                : sndDevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+            _sndDevice = sndDevEnum.GetDevice(Globals.getdeviceid(Properties.Settings.Default.AudioDevice));
             Func<bool> heardFish;
             if (Properties.Settings.Default.AverageSound)
                 heardFish = ListenTimerTickAvg;
