@@ -67,7 +67,8 @@ This little app does the following:
 * The Sound is not an embedded wave file, but the waveform is generated in code.  Saves some size, and makes it more flexible
 * The sound is a 10Hz sine wave, imperceptible to human hearing (for most).
 * To sound volume is ramped up, and then down, to make sure there are no START/STOP "pops". Some digital devices will manifest this.
-* The app has a Tray Icon, and a Settings window (nothing in there yet)
+* The app has a Tray Icon and a Settings window. See Getting Started below for details
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,17 +76,23 @@ This little app does the following:
 ## Getting Started
 
 Download the Zip File containing the latest [Release](https://github.com/tiaanv/SBKA/releases), or get the source, and build it yourself.
-Run the app.  You may also add a shortcut to your windows startup folder..
+Run the app.  You may also add a shortcut to your Windows startup folder.
 
-When you run the app, it will immediately start working. a Icon will appear in Tray Icons list.  Right Clicking on the Tray Icon presents a menu. from here you can:
+When you run the app, it will immediately start working. An icon will appear in the Tray Icons list.  Right-clicking on the Tray Icon presents a menu. from here you can:
 * Exit -> Close the application
-* Settings -> Presents the Settings window. This only shows the last time sound was detected, and the last time sound was played (for now).  Will add settings if it gets requested by users.
+* Settings -> Presents the Settings window:
+  * Shows the last time sound was detected, and the last time sound was played
+  * Shows a small VU meter to show detected output. Good for identifying the correct device.
+  * You can Test the Sound output (this is at 100Hz, so you can hear it).
+  * You can change the Output device to a specific (not Default) device. This is handy if you have the soundbar connected to an output, but sometimes plug headphones in. This way you can ensure the sound is played through the soundbar.
+  * You can select to bypass the sound detection detection, and just play the sound irrespectively at the set interval
+  * You can set the interval at which sound is played.*   
 
 ### Installation
 
 
 1. This is a Portable App, so no installation is required.
-2. Simply copy all the files into a folder on your computer an run it from there.
+2. Simply copy all the files into a folder on your computer and run it from there.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -107,7 +114,7 @@ See the [open issues](https:///github.com/tiaanv/SBKA/issues) for a full list of
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what makes the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
