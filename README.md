@@ -102,8 +102,8 @@ When you run the app, it will immediately start working. An icon will appear in 
 
 - [x] Generate Waveform and Play
 - [x] Detect Sound
-- [ ] Add Settings
-- [ ] Create Installer
+- [x] Add Settings
+- [ ] Create Installer - CANCELLED (App is now single portable EXE)
 
 See the [open issues](https:///github.com/tiaanv/SBKA/issues) for a full list of proposed features (and known issues).
 
