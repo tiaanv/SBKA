@@ -61,7 +61,7 @@ namespace SBKA
 
         private void tbInterval_ValueChanged(object sender, EventArgs e)
         {
-            lblInterval.Text = tbInterval.Value.ToString() + " min";
+            lblInterval.Text = tbInterval.Value.ToString() + " seconds";
             Properties.Settings.Default.Interval = tbInterval.Value;
             Properties.Settings.Default.Save();
         }
@@ -81,6 +81,11 @@ namespace SBKA
         private void FrmSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
             tmrLevelIndicator.Enabled = false;
+        }
+
+        private void lblInterval_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

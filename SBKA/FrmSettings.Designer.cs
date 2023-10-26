@@ -140,11 +140,12 @@
             // lblInterval
             // 
             lblInterval.AutoSize = true;
-            lblInterval.Location = new Point(10, 99);
+            lblInterval.Location = new Point(102, 79);
             lblInterval.Name = "lblInterval";
-            lblInterval.Size = new Size(43, 15);
+            lblInterval.Size = new Size(66, 15);
             lblInterval.TabIndex = 9;
-            lblInterval.Text = "10 Min";
+            lblInterval.Text = "10 Seconds";
+            lblInterval.Click += lblInterval_Click;
             // 
             // label2
             // 
@@ -157,11 +158,13 @@
             // 
             // tbInterval
             // 
-            tbInterval.Location = new Point(64, 79);
+            tbInterval.Location = new Point(10, 97);
+            tbInterval.Maximum = 600;
             tbInterval.Minimum = 1;
             tbInterval.Name = "tbInterval";
-            tbInterval.Size = new Size(217, 45);
+            tbInterval.Size = new Size(271, 45);
             tbInterval.TabIndex = 7;
+            tbInterval.TickFrequency = 30;
             tbInterval.Value = 1;
             tbInterval.ValueChanged += tbInterval_ValueChanged;
             // 

@@ -159,7 +159,7 @@ namespace SBKA
 
                 while (true)
                 {
-                    int interval = Properties.Settings.Default.Interval * 60;
+                    int interval = Properties.Settings.Default.Interval;
                     bool detectsound = Properties.Settings.Default.DetectSound;
 
                     if (detectsound)
