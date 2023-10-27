@@ -88,5 +88,17 @@ namespace SBKA.Properties {
                 this["DisableWithMonitor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableWhenLocked {
+            get {
+                return ((bool)(this["DisableWhenLocked"]));
+            }
+            set {
+                this["DisableWhenLocked"] = value;
+            }
+        }
     }
 }

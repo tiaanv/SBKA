@@ -51,6 +51,7 @@ namespace SBKA
         {
             chkDisableDetection.Checked = !Properties.Settings.Default.DetectSound;
             chkDisablewithmonitor.Checked = Properties.Settings.Default.DisableWithMonitor;
+            chkDisableWhenLocked.Checked = Properties.Settings.Default.DisableWhenLocked;
         }
 
         private void cbDevices_SelectedIndexChanged(object sender, EventArgs e)
@@ -94,6 +95,13 @@ namespace SBKA
         {
             Properties.Settings.Default.DisableWithMonitor = chkDisablewithmonitor.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void chkDisableWhenLocked_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DisableWhenLocked = chkDisableWhenLocked.Checked;
+            Properties.Settings.Default.Save();
+
         }
     }
 }

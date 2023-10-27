@@ -1,4 +1,5 @@
 using CoreAudioApi;
+using Microsoft.Win32;
 using NAudio;
 using NAudio.Wave;
 using System;
@@ -13,6 +14,7 @@ namespace SBKA
         public static DateTime lastheardsound;
         public static DateTime lastplayedsound;
         public static bool MonitorOn = true;
+        public static bool StationLocked = false;
 
         public static string getdeviceid(string devicefriendlyname)
         {
@@ -216,6 +218,21 @@ namespace SBKA
                     msgForm.Show();
                 }
 
+                //Detect Station Locked State
+                Microsoft.Win32.SystemEvents.SessionSwitch += new Microsoft.Win32.SessionSwitchEventHandler(SystemEvents_SessionSwitch);
+
+                void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
+                {
+                    if (e.Reason == SessionSwitchReason.SessionLock)
+                    {
+                        if (Properties.Settings.Default.DisableWhenLocked) Globals.StationLocked = true;
+                    }
+                    else if (e.Reason == SessionSwitchReason.SessionUnlock)
+                    {
+                        Globals.StationLocked = false;
+                    }
+                }
+
                 // Initialize Tray Icon
                 Bitmap bmp = SBKA.Properties.Resources.soundbar;
                 trayIcon = new NotifyIcon()
@@ -250,7 +267,7 @@ namespace SBKA
                     }
 
                     var diffInSeconds = (DateTime.Now - Globals.lastheardsound).TotalSeconds;
-                    if (diffInSeconds > interval && Globals.MonitorOn)
+                    if (diffInSeconds > interval && Globals.MonitorOn && !Globals.StationLocked)
                     {
                         Globals.PlayBeep(10, 3000);
                     }
