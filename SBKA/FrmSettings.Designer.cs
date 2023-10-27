@@ -38,6 +38,7 @@
             groupBox1 = new GroupBox();
             pbLevel = new ProgressBar();
             groupBox2 = new GroupBox();
+            chkDisablewithmonitor = new CheckBox();
             lblInterval = new Label();
             label2 = new Label();
             tbInterval = new TrackBar();
@@ -125,6 +126,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(chkDisablewithmonitor);
             groupBox2.Controls.Add(lblInterval);
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(tbInterval);
@@ -132,15 +134,26 @@
             groupBox2.Controls.Add(cbDevices);
             groupBox2.Location = new Point(11, 119);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(290, 130);
+            groupBox2.Size = new Size(290, 183);
             groupBox2.TabIndex = 6;
             groupBox2.TabStop = false;
             groupBox2.Text = "Audio Device";
             // 
+            // chkDisablewithmonitor
+            // 
+            chkDisablewithmonitor.AutoSize = true;
+            chkDisablewithmonitor.Location = new Point(10, 76);
+            chkDisablewithmonitor.Name = "chkDisablewithmonitor";
+            chkDisablewithmonitor.Size = new Size(173, 19);
+            chkDisablewithmonitor.TabIndex = 10;
+            chkDisablewithmonitor.Text = "Disable when monitor(s) off";
+            chkDisablewithmonitor.UseVisualStyleBackColor = true;
+            chkDisablewithmonitor.CheckedChanged += chkDisablewithmonitor_CheckedChanged;
+            // 
             // lblInterval
             // 
             lblInterval.AutoSize = true;
-            lblInterval.Location = new Point(102, 79);
+            lblInterval.Location = new Point(102, 111);
             lblInterval.Name = "lblInterval";
             lblInterval.Size = new Size(66, 15);
             lblInterval.TabIndex = 9;
@@ -150,7 +163,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(10, 79);
+            label2.Location = new Point(10, 111);
             label2.Name = "label2";
             label2.Size = new Size(46, 15);
             label2.TabIndex = 8;
@@ -158,7 +171,7 @@
             // 
             // tbInterval
             // 
-            tbInterval.Location = new Point(10, 97);
+            tbInterval.Location = new Point(10, 129);
             tbInterval.Maximum = 600;
             tbInterval.Minimum = 1;
             tbInterval.Name = "tbInterval";
@@ -196,7 +209,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(313, 257);
+            ClientSize = new Size(313, 314);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             MaximizeBox = false;
@@ -230,5 +243,6 @@
         private TrackBar tbInterval;
         private CheckBox chkDisableDetection;
         private System.Windows.Forms.Timer tmrLevelIndicator;
+        private CheckBox chkDisablewithmonitor;
     }
 }

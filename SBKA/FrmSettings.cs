@@ -11,6 +11,7 @@ namespace SBKA
             InitializeComponent();
             populate_devicelist();
             populate_intervalslider();
+            populate_checkboxes();
             tmrLevelIndicator.Enabled = true;
         }
 
@@ -46,9 +47,10 @@ namespace SBKA
             tbInterval.Value = Properties.Settings.Default.Interval;
         }
 
-        private void populate_diabledetection()
+        private void populate_checkboxes()
         {
             chkDisableDetection.Checked = !Properties.Settings.Default.DetectSound;
+            chkDisablewithmonitor.Checked = Properties.Settings.Default.DisableWithMonitor;
         }
 
         private void cbDevices_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,6 +88,12 @@ namespace SBKA
         private void lblInterval_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void chkDisablewithmonitor_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DisableWithMonitor = chkDisablewithmonitor.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

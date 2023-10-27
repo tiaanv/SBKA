@@ -76,5 +76,17 @@ namespace SBKA.Properties {
                 this["Interval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableWithMonitor {
+            get {
+                return ((bool)(this["DisableWithMonitor"]));
+            }
+            set {
+                this["DisableWithMonitor"] = value;
+            }
+        }
     }
 }

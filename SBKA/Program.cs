@@ -12,6 +12,7 @@ namespace SBKA
     {
         public static DateTime lastheardsound;
         public static DateTime lastplayedsound;
+        public static bool MonitorOn = true;
 
         public static string getdeviceid(string devicefriendlyname)
         {
@@ -82,7 +83,7 @@ namespace SBKA
                     }
                     if (step >= samples - rampsamples)
                     {
-                        rampvol = (UInt16)((float)volume * ((float)(samples-step) / (float)rampsamples));
+                        rampvol = (UInt16)((float)volume * ((float)(samples - step) / (float)rampsamples));
                         amp = rampvol >> 2;
                     }
                     short s = (short)(amp * Math.Sin(theta * (double)step));
@@ -101,7 +102,7 @@ namespace SBKA
             }
 
             var output = new WaveOutEvent { DeviceNumber = devicenumber };
-            
+
             var wav = new RawSourceWaveStream(mStrm, new WaveFormat(samplesPerSecond, bitsPerSample, 1));
             output.Init(wav);
             output.Play();
@@ -120,6 +121,74 @@ namespace SBKA
         }
 
     }
+
+    public partial class MsgForm : Form 
+    {
+        private IntPtr unRegPowerNotify = IntPtr.Zero;
+
+        public MsgForm()
+        {
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            ShowInTaskbar = false;
+            Opacity = 0;
+            Size = new Size(0, 0);
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            var settingGuid = new NativeMethods.PowerSettingGuid();
+            Guid powerGuid = IsWindows8Plus()
+                           ? settingGuid.ConsoleDisplayState
+                           : settingGuid.MonitorPowerGuid;
+
+            unRegPowerNotify = NativeMethods.RegisterPowerSettingNotification(
+                this.Handle, powerGuid, NativeMethods.DEVICE_NOTIFY_WINDOW_HANDLE);
+        }
+
+        private bool IsWindows8Plus()
+        {
+            var version = Environment.OSVersion.Version;
+            if (version.Major > 6) return true; // Windows 10+
+            if (version.Major == 6 && version.Minor > 1) return true; // Windows 8+
+            return false;  // Windows 7 or less
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case NativeMethods.WM_POWERBROADCAST:
+                    if (m.WParam == (IntPtr)NativeMethods.PBT_POWERSETTINGCHANGE)
+                    {
+                        var settings = (NativeMethods.POWERBROADCAST_SETTING)m.GetLParam(
+                            typeof(NativeMethods.POWERBROADCAST_SETTING));
+                        switch (settings.Data)
+                        {
+                            case 0:
+                                Globals.MonitorOn = false;
+                                break;
+                            case 1:
+                                Globals.MonitorOn = true;
+                                break;
+                            case 2:
+                                //Console.WriteLine("Monitor Dimmed");
+                                break;
+                        }
+                    }
+                    m.Result = (IntPtr)1;
+                    break;
+            }
+            base.WndProc(ref m);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            NativeMethods.UnregisterPowerSettingNotification(unRegPowerNotify);
+            base.OnFormClosing(e);
+        }
+    }
+
     internal static class Program
     {
         /// <summary>
@@ -136,9 +205,17 @@ namespace SBKA
         public class MyCustomApplicationContext : ApplicationContext
         {
             private NotifyIcon trayIcon;
+            MsgForm msgForm;
 
             public MyCustomApplicationContext()
             {
+                //Initialize MsgForm (to detect Monitor state)
+                if (Properties.Settings.Default.DisableWithMonitor == true)
+                {
+                    msgForm = new MsgForm();
+                    msgForm.Show();
+                }
+
                 // Initialize Tray Icon
                 Bitmap bmp = SBKA.Properties.Resources.soundbar;
                 trayIcon = new NotifyIcon()
@@ -171,8 +248,9 @@ namespace SBKA
                     {
                         await Task.Delay(2000, cancellationtkn);
                     }
+
                     var diffInSeconds = (DateTime.Now - Globals.lastheardsound).TotalSeconds;
-                    if (diffInSeconds > interval)
+                    if (diffInSeconds > interval && Globals.MonitorOn)
                     {
                         Globals.PlayBeep(10, 3000);
                     }
@@ -184,6 +262,13 @@ namespace SBKA
                 FrmSettings frmsettings = new FrmSettings();
                 frmsettings.ShowDialog();
                 frmsettings.Dispose();
+
+                if (Properties.Settings.Default.DisableWithMonitor == true && msgForm == null) 
+                {   
+                    msgForm = new MsgForm();
+                    msgForm.Show();
+                }
+
             }
 
             void Exit(object? sender, EventArgs e)
