@@ -87,6 +87,7 @@ When you run the app, it will immediately start working. An icon will appear in 
   * You can change the Output device to a specific (not Default) device. This is handy if you have the soundbar connected to an output, but sometimes plug headphones in. This way you can ensure the sound is played through the soundbar.
   * You can select to bypass the sound detection detection, and just play the sound irrespectively at the set interval
   * You can choose to disable sound if your monitors are off (sleep)
+  * You can choose to disable sound if your computer/station is locked
   * You can set the interval (in seconds) at which sound is played.*   
 
 ### Installation
