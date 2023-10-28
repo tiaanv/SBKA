@@ -60,6 +60,7 @@ namespace SBKA
             Properties.Settings.Default.Save();
             var sndDevEnum = new MMDeviceEnumerator();
             _sndDevice = sndDevEnum.GetDevice(Globals.getdeviceid(Properties.Settings.Default.AudioDevice));
+            tmrLevelIndicator.Enabled = true;
         }
 
         private void tbInterval_ValueChanged(object sender, EventArgs e)
@@ -77,8 +78,16 @@ namespace SBKA
 
         private void tmrLevelIndicator_Tick(object sender, EventArgs e)
         {
-            var currentVolumnLevel = (int)(_sndDevice.AudioMeterInformation.MasterPeakValue * 100);
-            pbLevel.Value = currentVolumnLevel;
+            try
+            {
+                var currentVolumnLevel = (int)(_sndDevice.AudioMeterInformation.MasterPeakValue * 100);
+                pbLevel.Value = currentVolumnLevel;
+            }
+            catch (Exception)
+            {
+                tmrLevelIndicator.Enabled = false;
+                MessageBox.Show("Invalid Sound Device detected. Please review settings", "Warning");
+            }
         }
 
         private void FrmSettings_FormClosing(object sender, FormClosingEventArgs e)
