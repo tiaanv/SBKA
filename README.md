@@ -88,6 +88,7 @@ When you run the app, it will immediately start working. An icon will appear in 
   * You can select to bypass the sound detection detection, and just play the sound irrespectively at the set interval
   * You can choose to disable sound if your monitors are off (sleep)
   * You can choose to disable sound if your computer/station is locked
+  * You can set output volume boost from 1 to 4.  This is experimental, to assist some speakers not responding.
   * You can set the interval (in seconds) at which sound is played.*   
 
 ### Installation
