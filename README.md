@@ -132,6 +132,11 @@ Don't forget to give the project a star! Thanks again!
 
 
 
+## Support
+
+Enjoying the project? [Buy me a beer 🍺](https://ko-fi.com/tiaanvee).
+Always appreciated, never expected.
+
 <!-- LICENSE -->
 ## License
 
