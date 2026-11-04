@@ -11,13 +11,13 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/tiaanv/SBKA/blob/master/SBKA">
-    <img src="/SBKA/soundbar.png" alt="Logo" width="200" height="200">
+  <a href="https://github.com/AJCrowley/SBKA-Plus">
+    <img src="./SBKA/Resources/soundbar_line_w.png" alt="Logo" width="200" height="200">
   </a>  
   <h3 align="center">SBKA</h3>
 
   <p align="center">
-   A simple utility to keep your soundbar awake
+   A simple utility to keep your soundbar awake forked from <a href="https://github.com/tiaanv/SBKA/blob/master/SBKA">SBKA</a> by <a href="https://github.com/tiaanv/">tiaanv</a>.
     <br />
     <a href="https://github.com/tiaanv/SBKA/issues">Report Bug</a>
     ·
@@ -26,7 +26,7 @@
 </div>
 
 
-
+<a href="https://github.com/tiaanv/SBKA/blob/master/SBKA">
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -56,6 +56,36 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
+I recently got a new sound bar. It sounds great, there's just one issue. It has an *obnoxiously aggressive* power saving firmware that offers me no control over it. What this means for me in practical terms:
+
+- If no sound comes from the TV for 15 minutes, the sound bar will go into standby, cycling my TV screen with it through the HDMI CEC connection, leaving me with a black screen for several seconds
+- It has precisely zero qualms about aggressively cycling my TV screen when I'm playing Helldivers with my friends and wearing headphones. Think it'll just hit you once when it goes into standby? Guess again!
+- I have tried every single *sound bar keepy uppy* program there is, and none of them worked
+- Another delightful side effect of this manic power saving is that because my computer is outputting Dolby audio, the sound bar won't keep a stream open, so whatever I play, I have to wait about 5 seconds for the audio to kick in
+- The sound bar sounds really great, and I'm not going back to the one that just worked and didn't give me a hard time
+
+I had three options:
+- Deal with the incessant annoyance of a soundbar that randomly turns my TV screen off while I'm doing things
+- Use a TOSLink cable or disable HDMI CEC on my TV, and have more remotes to deal with
+- Take the best of the dozen or more *please don't let my sound bar sleep*, learn C# in an evening, and spend said evening making the adjustments that I desired
+
+I had a sense that the issue was either that the tones played by all of the apps were either too quiet, or too short, and it wasn't enough to keep my sound bar awake.
+
+<a href="https://github.com/tiaanv/SBKA/blob/master/SBKA">SBKA</a> was the best of these applications, because it didn't just fart out a noise on a timer, it actually monitored when Windows last made a sound, and only sends a keep alive signal if necessary. This set it apart from the competition. I needed to add features to play with to figure out a way to keep my narcoleptic sound bar going, so I added:
+
+- Choose between 44.1 and 48KHz, because why not?
+- Give you control of the general frequency range of the tone generated. You can have a little rumble, or a big beep
+- Choose the duration of the sound generated so that slow to pick up sound bars have time to realise that somebody is trying to put audio through them
+- A delightful selection of icons to choose from, all based on the original by <a href="https://github.com/tiaanv/">tiaanv</a>
+- Now you can click the systray icon with the left or the right mouse button to open the menu
+- A nice little check box that you can compulisvely check and uncheck to get the program to start with windows, or not
+
+It is my hope that this program will now serve to handle even the most stubborn of sound bars. I hope that somebody finds it useful. Please use and enjoy it, be nice and support me and <a href="https://github.com/tiaanv/">tiaanv</a>, have fun!
+
+Is sound bar one or two words? I can't tell. I can't even be consistent in my own documentation. I yield the floor to the author of the original software:
+
+---
 
 I recently started using an old soundbar as my speakers for my PC.  Only to realise it has an "auto sleep" function that I cannot adjust or disable.  The workaround for this would be to simply make sure that audio is sent to the sound output before it goes to sleep.
 I did find one alternative app searching the web, but I did not want to download and install it, since both Chrome and Windows identified it as having a Trojan.  Might be a false alarm, but I'd rather not take the chance. 

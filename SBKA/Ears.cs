@@ -1,4 +1,4 @@
-﻿using CoreAudioApi;
+﻿using NAudio.CoreAudioApi;
 using System;
 using System.Diagnostics;
 using System.Linq;

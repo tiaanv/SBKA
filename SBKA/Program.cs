@@ -1,11 +1,13 @@
-using CoreAudioApi;
 using Microsoft.Win32;
 using NAudio;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using System;
 using System.Diagnostics;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Threading;
+using static SBKA.Globals;
 
 namespace SBKA
 {
@@ -21,11 +23,11 @@ namespace SBKA
             var sndDevEnum = new MMDeviceEnumerator();
 
             //Get Default Snd Device
-            string deviceid = sndDevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
+            string deviceid = sndDevEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).ID;
 
             if (Properties.Settings.Default.AudioDevice != "Default")
             {
-                var devices = sndDevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+                var devices = sndDevEnum.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
                 for (int i = 0; i < devices.Count; i++)
                 {
                     if (devices[i].FriendlyName == devicefriendlyname)
@@ -36,8 +38,16 @@ namespace SBKA
             return deviceid;
         }
 
+        public static class TrayEvents
+        {
+            public static event Action? TrayIconChanged;
+            public static void RaiseTrayIconChanged()
+            {
+                TrayIconChanged?.Invoke();
+            }
+        }
 
-        public static void PlayBeep(UInt16 frequency, int msDuration, UInt16 volume = 16383)
+        public static void PlayBeep()
         {
             var mStrm = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(mStrm);
@@ -47,8 +57,19 @@ namespace SBKA
             int headerSize = 8;
             short formatType = 1;
             short tracks = 1;
-            int samplesPerSecond = 44100;
-            short bitsPerSample = 16;
+            int samplesPerSecond;
+            if (Properties.Settings.Default.OutputRate == "48000Hz")
+            {
+                samplesPerSecond = 48000;
+            }
+            else
+            {
+                samplesPerSecond = 44100;
+            }
+            int msDuration = Properties.Settings.Default.OutputDuration * 1500; // I have no idea why, but sound plays for 2/3 of designated time, so multiply by 1.5 to get the desired duration
+            int frequency = Properties.Settings.Default.OutputFreq;
+            int volume = 50 * Properties.Settings.Default.OutputBoost;
+            short bitsPerSample = 24;
             short frameSize = (short)(tracks * ((bitsPerSample + 7) / 8));
             int bytesPerSecond = samplesPerSecond * frameSize;
             int waveSize = 4;
@@ -124,7 +145,7 @@ namespace SBKA
 
     }
 
-    public partial class MsgForm : Form 
+    public partial class MsgForm : Form
     {
         private IntPtr unRegPowerNotify = IntPtr.Zero;
 
@@ -220,6 +241,7 @@ namespace SBKA
 
                 //Detect Station Locked State
                 Microsoft.Win32.SystemEvents.SessionSwitch += new Microsoft.Win32.SessionSwitchEventHandler(SystemEvents_SessionSwitch);
+                TrayEvents.TrayIconChanged += UpdateTrayIcon;
 
                 void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
                 {
@@ -234,16 +256,60 @@ namespace SBKA
                 }
 
                 // Initialize Tray Icon
-                Bitmap bmp = SBKA.Properties.Resources.soundbar;
+                Bitmap bmp = SBKA.Properties.Resources.soundbar_solid_b;
+                switch (Properties.Settings.Default.TrayIconMode)
+                {
+                    case "Black Solid":
+                        bmp = SBKA.Properties.Resources.soundbar_solid_b;
+                        break;
+                    case "Black Outline":
+                        bmp = SBKA.Properties.Resources.soundbar_line_b;
+                        break;
+                    case "White Solid":
+                        bmp = SBKA.Properties.Resources.soundbar_solid_w;
+                        break;
+                    case "White Outline":
+                        bmp = SBKA.Properties.Resources.soundbar_line_w;
+                        break;
+                }
                 trayIcon = new NotifyIcon()
                 {
                     Icon = Icon.FromHandle(bmp.GetHicon()),
                     ContextMenuStrip = new ContextMenuStrip(),
+                    Text = "SBKA+",
                     Visible = true
                 };
                 trayIcon.ContextMenuStrip.Items.Add("Settings", null, Settings);
                 trayIcon.ContextMenuStrip.Items.Add("Exit", null, Exit);
+                trayIcon.MouseClick += (s, e) =>
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        trayIcon.ContextMenuStrip?.Show(Cursor.Position);
+                    }
+                };
                 Sound();
+            }
+
+            private void UpdateTrayIcon()
+            {
+                Bitmap bmp = SBKA.Properties.Resources.soundbar_solid_b;
+                switch (Properties.Settings.Default.TrayIconMode)
+                {
+                    case "Black Solid":
+                        bmp = SBKA.Properties.Resources.soundbar_solid_b;
+                        break;
+                    case "Black Outline":
+                        bmp = SBKA.Properties.Resources.soundbar_line_b;
+                        break;
+                    case "White Solid":
+                        bmp = SBKA.Properties.Resources.soundbar_solid_w;
+                        break;
+                    case "White Outline":
+                        bmp = SBKA.Properties.Resources.soundbar_line_w;
+                        break;
+                }
+                trayIcon.Icon = Icon.FromHandle(bmp.GetHicon());
             }
 
             public static async Task Sound()
@@ -269,7 +335,7 @@ namespace SBKA
                     var diffInSeconds = (DateTime.Now - Globals.lastheardsound).TotalSeconds;
                     if (diffInSeconds > interval && Globals.MonitorOn && !Globals.StationLocked)
                     {
-                        Globals.PlayBeep(10, 3000);
+                        Globals.PlayBeep();
                     }
                 }
             }
@@ -280,8 +346,8 @@ namespace SBKA
                 frmsettings.ShowDialog();
                 frmsettings.Dispose();
 
-                if (Properties.Settings.Default.DisableWithMonitor == true && msgForm == null) 
-                {   
+                if (Properties.Settings.Default.DisableWithMonitor == true && msgForm == null)
+                {
                     msgForm = new MsgForm();
                     msgForm.Show();
                 }
